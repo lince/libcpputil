@@ -11,7 +11,8 @@ INCLUDES= \
 			include/InitializationException.h \
 			include/NotImplementedException.h \
 			include/Thread.h \
-			include/Mutex.h
+			include/Mutex.h \
+			include/Enum.h
 			
 			
 INCLUDES_LOGGER= \
@@ -29,6 +30,7 @@ SOURCES=	\
 			src/Functions.cpp \
 			src/Thread.cpp \
 			src/Mutex.cpp \
+			src/Enum.cpp \
 			src/SimpleException.cpp \
 			src/logger/Loggable.cpp \
 			src/logger/LoggerDefault.cpp \

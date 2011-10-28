@@ -8,7 +8,7 @@ namespace cpputil {
 class IllegalParameterException : public cpputil::SimpleException  {
 public:
 	IllegalParameterException(std::string e, std::string c, std::string m) :
-			SimpleException (e, c, m){
+			SimpleException (e, c, m) {
 
 		setExceptionSign("cpputil::IllegalParameterException");
 	}

@@ -69,7 +69,8 @@ void Logger::unregisterClass(Loggable *loggable) {
 	it = loggableMap->find(loggable);
 	if (it == loggableMap->end()) {
 		throw LoggerException(
-				"Trying to unregister a not registrad Loggable instance!",
+				"Trying to unregister a not registered Loggable instance! <" +
+				it->second + ">",
 				"cpputil::logger::Logger",
 				"unregisterClass(Loggable*)");
 	}
