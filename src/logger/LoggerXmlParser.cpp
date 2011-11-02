@@ -10,6 +10,8 @@
 #include "../../include/logger/LoggerXmlParser.h"
 #include "../../include/logger/LoggerManager.h"
 
+using namespace std;
+
 namespace cpputil {
 namespace logger {
 

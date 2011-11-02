@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <pwd.h>
+#include <uuid/uuid.h>
 using namespace std;
 
 namespace cpputil {
@@ -231,6 +232,15 @@ bool Functions::isIPv6(const char* ip){
         sockaddr_in6 sa;
         return (inet_pton(AF_INET6, ip, &(sa.sin6_addr)) == 1);
     }
+}
+
+std::string Functions::generateUUID() {
+	char string[37];
+	uuid_t gen;
+
+	uuid_generate(gen);
+	uuid_unparse(gen, string);
+	return string;
 }
 
 }

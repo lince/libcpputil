@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<rootElem rootAttr="rootAttrValue">
+    <childElem>This is the child elem 1</childElem>
+    <childElem>This is the child elem 2</childElem>
+</rootElem>

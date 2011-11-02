@@ -1,7 +1,15 @@
 CC= g++
 HEADERS_DIR= /usr/local/include
 LIB_DIR= /usr/local/lib
-TESTS= test/exceptionTest test/loggerTest test/socketClientTest test/socketServerTest
+TESTS= \
+		test/exceptionTest \
+		test/loggerTest \
+		test/socketClientTest \
+		test/socketServerTest \
+		test/uuidTest \
+		test/enumTest \
+		test/xmlBuilderTest
+		
 PROGS= libcpputil.so
 
 INCLUDES= \
@@ -41,7 +49,7 @@ SOURCES=	\
 			src/logger/LoggerNetworkStream.cpp \
 			src/logger/LoggerColor.cpp
 			
-LIBS= -lpthread
+LIBS= -lpthread -luuid
 			
 INCLUDES_TICPP= \
 			ticpp/ticpp.h \
@@ -94,7 +102,19 @@ test/socketClientTest: test/socketClientTest.cpp libcpputil.so
 
 test/socketServerTest: test/socketServerTest.cpp libcpputil.so
 	$(CC) -I. -I./include -L. -g test/socketServerTest.cpp -lcpputil -o test/socketServerTest
-		
+	
+test/uuidTest: test/uuidTest.cpp libcpputil.so
+	$(CC) -I. -I./include -L. -g test/uuidTest.cpp -lcpputil -o test/uuidTest
+	
+test/uuidTest: test/uuidTest.cpp libcpputil.so
+	$(CC) -I. -I./include -L. -g test/uuidTest.cpp -lcpputil -o test/uuidTest
+
+test/enumTest: test/enumTest.cpp libcpputil.so
+	$(CC) -I. -I./include -L. -g test/enumTest.cpp -lcpputil -o test/enumTest
+	
+test/xmlBuilderTest: test/xmlBuilderTest.cpp libcpputil.so
+	$(CC) -I. -I./include -L. -g test/xmlBuilderTest.cpp -lcpputil -o test/xmlBuilderTest
+
 clean:
 	rm -f $(PROGS)
 	rm -f $(TESTS)

@@ -60,6 +60,8 @@ public:
      */
     static bool isIPv6(const char* ip);
 
+    static std::string generateUUID();
+
 };
 
 } /* namespace cpputil */

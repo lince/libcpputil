@@ -9,9 +9,8 @@
 #include <cstdlib>
 #include <string>
 #include <set>
-using namespace std;
 
-#include <ticpp/ticpp.h>
+#include "../../ticpp/ticpp.h"
 using namespace ticpp;
 
 #include "LoggerException.h"
@@ -25,13 +24,13 @@ namespace logger {
 
 class LoggerXmlParser {
 public:
-	LoggerXmlParser(string xmlFileName);
+	LoggerXmlParser(std::string xmlFileName);
 	void parseDocument();
 	virtual ~LoggerXmlParser();
 
-    set<string>* getBlockedClasses();
-    string getFileName();
-    string getIpAddress();
+	std::set<std::string>* getBlockedClasses();
+	std::string getFileName();
+	std::string getIpAddress();
     LoggerManager::LoggerStyle getLoggerStyle();
     unsigned short getPortNumber();
     LoggerManager::RegionalOpt getRegional();
@@ -48,17 +47,17 @@ private:
     void parseColor(Element* style);
 
 private:
-    string xmlFileName;
-	set<string>* blockedClasses;
+    std::string xmlFileName;
+    std::set<std::string>* blockedClasses;
 	LoggerManager::RegionalOpt regionalOpt;
 	LoggerManager::LoggerStyle loggerStyle;
 	Logger::LoggerLvl loggerLvl;
 
-	string ipAddress;
+	std::string ipAddress;
 	unsigned short	portNumber;
 	LoggerNetworkStream::Protocol protocol;
 
-	string logfileName;
+	std::string logfileName;
 	LoggerLogFile::WriteMode writemode;
 
 	LoggerColor::Color* colors;

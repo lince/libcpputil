@@ -46,6 +46,7 @@ void Loggable::fatal(std::string str) {
 }
 
 void Loggable::unregister() {
+	TRACE(logger, "begin unregister (Loggable)");
 	UNREGISTER(logger);
 }
 
