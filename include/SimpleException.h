@@ -25,8 +25,11 @@ private:
 public:
 	SimpleException(
 			std::string errorMsg,
-			std::string classStr="unspecified",
-			std::string methodStr="unspecified");
+			std::string classStr,
+			std::string methodStr);
+
+	SimpleException(
+			std::string errorMsg);
 
 	virtual ~SimpleException() throw();
 

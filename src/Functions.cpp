@@ -22,6 +22,8 @@
 #include <string.h>
 #include <pwd.h>
 #include <uuid/uuid.h>
+#include <algorithm>
+#include <cctype>
 using namespace std;
 
 namespace cpputil {
@@ -241,6 +243,28 @@ std::string Functions::generateUUID() {
 	uuid_generate(gen);
 	uuid_unparse(gen, string);
 	return string;
+}
+
+std::string Functions::toUpperCase(const std::string& str) {
+	std::string result = str;
+	std::transform(result.begin(), result.end(), result.begin(),
+			(int(*)(int)) std::toupper);
+	return result;
+}
+
+std::string Functions::toLowerCase(const std::string& str) {
+	std::string result = str;
+	std::transform(result.begin(), result.end(), result.begin(),
+			(int(*)(int)) std::tolower);
+	return result;
+}
+
+std::string Functions::boolToString(const bool value) {
+	if (value) {
+		return "true";
+	} else {
+		return "false";
+	}
 }
 
 }

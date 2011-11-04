@@ -8,7 +8,8 @@ TESTS= \
 		test/socketServerTest \
 		test/uuidTest \
 		test/enumTest \
-		test/xmlBuilderTest
+		test/xmlBuilderTest \
+		test/stringTest
 		
 PROGS= libcpputil.so
 
@@ -114,6 +115,9 @@ test/enumTest: test/enumTest.cpp libcpputil.so
 	
 test/xmlBuilderTest: test/xmlBuilderTest.cpp libcpputil.so
 	$(CC) -I. -I./include -L. -g test/xmlBuilderTest.cpp -lcpputil -o test/xmlBuilderTest
+
+test/stringTest: test/stringTest.cpp libcpputil.so
+	$(CC) -I. -I./include -L. -g test/stringTest.cpp -lcpputil -o test/stringTest
 
 clean:
 	rm -f $(PROGS)

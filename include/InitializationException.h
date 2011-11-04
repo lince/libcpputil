@@ -19,6 +19,10 @@ public:
 
 		setExceptionSign("cpputil::InitializationException");
 	}
+
+	InitializationException(std::string e) : SimpleException(e) {
+		setExceptionSign("cpputil::InitializationException");
+	}
 };
 
 } /* namespace cpputil */

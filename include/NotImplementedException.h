@@ -19,6 +19,10 @@ public:
 
 		setExceptionSign("cpputil::NotImplementedException");
 	}
+
+	NotImplementedException(std::string e) : SimpleException(e) {
+		setExceptionSign("cpputil::NotImplementedException");
+	}
 };
 
 } /* namespace cpputil */

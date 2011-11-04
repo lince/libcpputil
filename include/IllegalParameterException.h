@@ -12,6 +12,10 @@ public:
 
 		setExceptionSign("cpputil::IllegalParameterException");
 	}
+
+	IllegalParameterException(std::string e) : SimpleException(e) {
+		setExceptionSign("cpputil::IllegalParameterException");
+	}
 };
 
 } /* namespace cpputil */

@@ -5,6 +5,9 @@
  *      Author: caioviel
  */
 
+#ifndef LOGGERXMLPARSER_H_
+#define LOGGERXMLPARSER_H_
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -15,9 +18,6 @@ using namespace ticpp;
 
 #include "LoggerException.h"
 #include "LoggerManager.h"
-
-#ifndef LOGGERXMLPARSER_H_
-#define LOGGERXMLPARSER_H_
 
 namespace cpputil {
 namespace logger {

@@ -7,7 +7,15 @@
 
 #include "../include/SimpleException.h"
 
+#include <sstream>
+//unspecified
 namespace cpputil {
+
+SimpleException::SimpleException(
+		std::string e) :  errorMsg(e), classStr("unspecified"), methodStr("unspecified") {
+
+	setExceptionSign("cpputil::SimpleException");
+}
 
 SimpleException::SimpleException(
 		std::string e, std::string c, std::string m) :  errorMsg(e), classStr(c), methodStr(m) {
@@ -40,15 +48,11 @@ std::string SimpleException::getExceptionSign() {
 }
 
 const char* SimpleException::what() const throw() {
-	std::string fullMsg = "A '";
-	fullMsg += exceptionSign;
-	fullMsg += "' has been throwed by class <";
-	fullMsg += classStr;
-	fullMsg += "> at method <";
-	fullMsg += methodStr;
-	fullMsg += ">\n\terror message: ";
-	fullMsg += errorMsg + "\n";
-	return fullMsg.c_str();
+	std::stringstream fullMsg;
+	fullMsg<<"A '"<<exceptionSign<<"' has been throwed by class <";
+	fullMsg<<classStr<<"> at method <"<<methodStr<<">"<<std::endl;
+	fullMsg<<"\terror message: "<<errorMsg<<std::endl;
+	return fullMsg.str().c_str();
 }
 
 } /* namespace cpputil */

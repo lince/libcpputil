@@ -62,6 +62,12 @@ public:
 
     static std::string generateUUID();
 
+    static std::string toUpperCase(const std::string& str);
+
+    static std::string toLowerCase(const std::string& str);
+
+    static std::string boolToString(const bool value);
+
 };
 
 } /* namespace cpputil */
