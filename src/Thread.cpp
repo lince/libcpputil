@@ -4,6 +4,11 @@ using namespace std;
 
 namespace cpputil {
 
+
+void Thread::setExceptionListener(ThreadExceptionListener* listener) {
+	this->exceptionlistener = listener;
+}
+
 	Thread::Thread() {
 		pthread_mutex_init(&threadMutex, NULL);
 
@@ -14,6 +19,8 @@ namespace cpputil {
 		isWaiting = false;
 		pthread_cond_init(&threadFlagConditionVariable, NULL);
 		pthread_cond_init(&threadFlagCVLockUntilSignal, NULL);
+
+		exceptionlistener = NULL;
 	}
 
 	Thread::~Thread() {
@@ -40,7 +47,14 @@ namespace cpputil {
 			return NULL;
 		}
 
-		static_cast<Thread*>(ptr)->run();
+		try {
+			static_cast<Thread*>(ptr)->run();
+		} catch (cpputil::SimpleException& exception) {
+			Thread* thread = (Thread*)ptr;
+			if (thread->exceptionlistener != NULL) {
+				thread->exceptionlistener->catchException(exception);
+			}
+		}
 		pthread_exit(ptr);
 		return NULL;
 	}

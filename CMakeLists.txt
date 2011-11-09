@@ -43,7 +43,8 @@ SET(install_headers
 			include/NotImplementedException.h
 			include/Thread.h
 			include/Mutex.h
-			include/Enum.h)
+			include/Enum.h
+			include/ThreadExceptionListener.h)
 			
 			
 SET(install_headers_logger
@@ -100,6 +101,8 @@ ADD_EXECUTABLE(stringTest test/stringTest.cpp)
 TARGET_LINK_LIBRARIES (stringTest cpputil)
 
 INSTALL (TARGETS cpputil LIBRARY DESTINATION lib)
+
+# INSTALL (TARGETS cpputil ARCHIVE DESTINATION lib)
 
 INSTALL (FILES ${install_headers} DESTINATION include/libcpputil)
 

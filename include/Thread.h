@@ -15,6 +15,8 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+#include "ThreadExceptionListener.h"
+
 namespace cpputil {
 //! Classe virtual pura que representa uma Thread.
 /*! Esta classe tem um comportamento semelhante a classe Thread da linguagem Java.
@@ -47,6 +49,8 @@ namespace cpputil {
 
 		//! método virtual que executa a thread
 		virtual void run() = 0;
+
+		ThreadExceptionListener* exceptionlistener;
 
 	private:
 		//! armazena a ID da thread
@@ -120,6 +124,8 @@ namespace cpputil {
 			
 		*/
 		bool unlockConditionSatisfied();
+
+		void setExceptionListener(ThreadExceptionListener* listener);
   };
 }
 

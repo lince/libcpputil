@@ -3,7 +3,10 @@ using namespace std;
 
 
 #include "../include/SimpleException.h"
+#include "../include/Thread.h"
 using namespace cpputil;
+
+bool waiting_exception = false;
 
 class MyException : public SimpleException {
 public:
@@ -18,6 +21,33 @@ public:
 		setExceptionSign("MyNewException");
 	}
 };
+
+class MyThread : public Thread {
+public:
+	MyThread();
+	void run();
+};
+
+MyThread::MyThread() : Thread() {
+
+}
+
+void MyThread::run() {
+	throw SimpleException(
+			"Dummy error message - Thread Exception",
+			"MyThread",
+			"void run()");
+}
+
+class MyListener : public ThreadExceptionListener {
+	virtual void catchException(cpputil::SimpleException& exception) throw();
+};
+
+void MyListener::catchException(SimpleException& exception) throw() {
+	cout << "Exception Thread " << exception.getExceptionSign() << "catched!" << endl;
+	cout << exception.what();
+	waiting_exception = false;
+}
 
 void doSomething() {
 	try {
@@ -79,6 +109,17 @@ int main() {
 	} catch (MyException &ex) {
 		cout << ex.what();
 	}
+
+	waiting_exception = true;
+	MyListener* myListener = new MyListener();
+	MyThread* myThread = new MyThread();
+	myThread->setExceptionListener(myListener);
+	myThread->start();
+
+	while (waiting_exception);
+
+	delete myThread;
+	delete myListener;
 
 	return 0;
 }
