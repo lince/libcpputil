@@ -1,5 +1,7 @@
 #include "../include/Thread.h"
 
+#include <sys/time.h>
+#include <errno.h>
 using namespace std;
 
 namespace cpputil {

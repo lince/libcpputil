@@ -19,6 +19,7 @@ ADD_LIBRARY(cpputil
 			src/Mutex.cpp 
 			src/SimpleException.cpp 
 			src/Thread.cpp 
+			src/LockedCondition.cpp
 			src/network/ServerSocketTCP.cpp 
 			src/network/SocketTCP.cpp
 			src/logger/Loggable.cpp
@@ -44,8 +45,8 @@ SET(install_headers
 			include/Thread.h
 			include/Mutex.h
 			include/Enum.h
-			include/ThreadExceptionListener.h)
-			
+			include/ThreadExceptionListener.h
+			include/LockedCondition.h)
 			
 SET(install_headers_logger
 			include/logger/Loggable.h

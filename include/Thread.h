@@ -11,8 +11,6 @@
 #ifndef THREAD_H_
 #define THREAD_H_
 
-#include <errno.h>
-#include <sys/time.h>
 #include <pthread.h>
 
 #include "ThreadExceptionListener.h"
@@ -41,10 +39,10 @@ namespace cpputil {
 		//! variável que armazena a condição da thread de "está esperando"
 		bool isWaiting;
 		
-		//! variável que armazena a thread flag de trancamento até ser dado um sinaal
+		//! variável que armazena a thread flag de trancamento até ser dado um sinal
 		pthread_mutex_t threadFlagMutexLockUntilSignal;
 		
-		//! pthread que armazena a flag de condição de trancamento até ser dado um sinaal
+		//! pthread que armazena a flag de condição de trancamento até ser dado um sinal
 		pthread_cond_t threadFlagCVLockUntilSignal;
 
 		//! método virtual que executa a thread
