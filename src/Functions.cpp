@@ -85,7 +85,7 @@ string Functions::timeToStringUS(Time *time) {
 		}
 		aux += Functions::numberToString(time->second) + " AM";
 	} else {
-		if (time->hour < 10) {
+		if ((time->hour -12) < 10) {
 			aux += "0";
 		}
 		aux = Functions::numberToString(time->hour - 12) + ":";
