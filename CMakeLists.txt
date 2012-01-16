@@ -12,7 +12,6 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 SET(CMAKE_CXX_FLAGS "-DTIXML_USE_TICPP")
 SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined -fPIC")
 
-
 ADD_LIBRARY(cpputil 
 			src/Enum.cpp 
 			src/Functions.cpp 
