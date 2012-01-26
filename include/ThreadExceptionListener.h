@@ -18,7 +18,7 @@ public:
 
 	}
 
-	virtual void catchException(cpputil::SimpleException& exception) throw() = 0;
+	virtual void catchExceptionOnThread(cpputil::SimpleException& exception) throw() = 0;
 };
 
 }

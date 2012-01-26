@@ -40,10 +40,10 @@ void MyThread::run() {
 }
 
 class MyListener : public ThreadExceptionListener {
-	virtual void catchException(cpputil::SimpleException& exception) throw();
+	virtual void catchExceptionOnThread(cpputil::SimpleException& exception) throw();
 };
 
-void MyListener::catchException(SimpleException& exception) throw() {
+void MyListener::catchExceptionOnThread(SimpleException& exception) throw() {
 	cout << "Exception Thread " << exception.getExceptionSign() << "catched!" << endl;
 	cout << exception.what();
 	waiting_exception = false;

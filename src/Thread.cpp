@@ -54,7 +54,7 @@ void Thread::setExceptionListener(ThreadExceptionListener* listener) {
 		} catch (cpputil::SimpleException& exception) {
 			Thread* thread = (Thread*)ptr;
 			if (thread->exceptionlistener != NULL) {
-				thread->exceptionlistener->catchException(exception);
+				thread->exceptionlistener->catchExceptionOnThread(exception);
 			}
 		}
 		pthread_exit(ptr);

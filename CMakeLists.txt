@@ -100,6 +100,9 @@ TARGET_LINK_LIBRARIES (xmlBuilderTest cpputil)
 ADD_EXECUTABLE(stringTest test/stringTest.cpp)
 TARGET_LINK_LIBRARIES (stringTest cpputil)
 
+ADD_EXECUTABLE(exceptionThreadTest test/exceptionThreadTest.cpp)
+TARGET_LINK_LIBRARIES (exceptionThreadTest cpputil)
+
 INSTALL (TARGETS cpputil LIBRARY DESTINATION lib)
 
 # INSTALL (TARGETS cpputil ARCHIVE DESTINATION lib)
