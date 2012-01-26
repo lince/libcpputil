@@ -123,11 +123,11 @@ string Functions::dateToStringUS(Date *date) {
 	if (date->mounth < 10) {
 		aux += "0";
 	}
-	aux += Functions::numberToString(date->mounth) + "/";
+	aux += Functions::numberToString(date->mounth) + "-";
 	if (date->day < 10) {
 		aux += "0";
 	}
-	aux += Functions::numberToString(date->day) + "/";
+	aux += Functions::numberToString(date->day) + "-";
 	aux += Functions::numberToString(date->year);
 	return aux;
 }
