@@ -13,7 +13,8 @@ SET(CMAKE_CXX_FLAGS "-DTIXML_USE_TICPP")
 SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined -fPIC")
 
 ADD_LIBRARY(cpputil 
-			src/Enum.cpp 
+			src/Time.cpp
+			src/Date.cpp
 			src/Functions.cpp 
 			src/Mutex.cpp 
 			src/SimpleException.cpp 
@@ -22,7 +23,7 @@ ADD_LIBRARY(cpputil
 			src/network/ServerSocketTCP.cpp 
 			src/network/SocketTCP.cpp
 			src/logger/Loggable.cpp
-			src/logger/Logger.cpp 
+			src/logger/Logger.cpp
 			src/logger/LoggerColor.cpp 
 			src/logger/LoggerDefault.cpp 
 			src/logger/LoggerLogFile.cpp 
@@ -102,6 +103,9 @@ TARGET_LINK_LIBRARIES (stringTest cpputil)
 
 ADD_EXECUTABLE(exceptionThreadTest test/exceptionThreadTest.cpp)
 TARGET_LINK_LIBRARIES (exceptionThreadTest cpputil)
+
+ADD_EXECUTABLE(dateTimeTest test/dateTimeTest.cpp)
+TARGET_LINK_LIBRARIES (dateTimeTest cpputil)
 
 INSTALL (TARGETS cpputil LIBRARY DESTINATION lib)
 

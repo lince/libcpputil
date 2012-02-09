@@ -9,20 +9,10 @@
 #define FUNCTIONS_H_
 
 #include <string>
+#include "Time.h"
+#include "Date.h"
 
 namespace cpputil {
-
-struct Date {
-	int day; /*1-31*/
-	int mounth; /*1-12*/
-	int year; /*YYYY format*/
-};
-
-struct Time {
-	int hour; /*0-23*/
-	int minute; /*0-59*/
-	int second; /*0-59*/
-};
 
 class Functions {
 public:
@@ -32,17 +22,17 @@ public:
 
 	static std::string numberToString(double value);
 
-	static Date* getCurrentDate();
-	static Time* getCurrentTime();
+	static Date getCurrentDate();
+	static Time getCurrentTime();
 
 	static std::string getCurrentTimestampUS();
 	static std::string getCurrentTimestampBR();
 
-	static std::string timeToStringUS(Time* time);
-	static std::string timeToStringBR(Time* time);
+	static std::string timeToStringUS(Time time);
+	static std::string timeToStringBR(Time time);
 
-	static std::string dateToStringUS(Date* date);
-	static std::string dateToStringBR(Date* date);
+	static std::string dateToStringUS(Date date);
+	static std::string dateToStringBR(Date date);
 
 	static double getCurrentTimeMillis();
 

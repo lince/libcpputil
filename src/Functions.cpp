@@ -35,170 +35,47 @@ inline string Functions::numberToString(double value) {
 	return s;
 }
 
-Date *Functions::getCurrentDate() {
-	time_t rawtime;
-	struct tm * timeinfo;
-	Date* date = new Date();
-
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-
-	date->day = timeinfo->tm_mday;
-	date->mounth = timeinfo->tm_mon + 1;
-	date->year = timeinfo->tm_year + 1900;
-
-	//delete timeinfo;
-	return date;
+Date Functions::getCurrentDate() {
+	return Date::getCurrentDate();
 }
 
-
-
-Time *Functions::getCurrentTime() {
-	time_t rawtime;
-	struct tm * timeinfo;
-	Time* nTime = new Time();
-
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-
-	nTime->hour  = timeinfo->tm_hour;
-	nTime->minute = timeinfo->tm_min;
-	nTime->second = timeinfo->tm_sec;
-
-	//delete timeinfo;
-	return nTime;
+Time Functions::getCurrentTime() {
+	return Time::getCurrentTime();
 }
 
-string Functions::timeToStringUS(Time *time) {
-	string aux = "";
-	if (time->hour <= 12) {
-		if (time->hour < 10) {
-			aux += "0";
-		}
-		aux += Functions::numberToString(time->hour) + ":";
-		if (time->minute < 10) {
-			aux += "0";
-		}
-		aux += Functions::numberToString(time->minute) + ":";
-		if (time->second < 10) {
-			aux += "0";
-		}
-		aux += Functions::numberToString(time->second) + " AM";
-	} else {
-		if ((time->hour -12) < 10) {
-			aux += "0";
-		}
-		aux = Functions::numberToString(time->hour - 12) + ":";
-		if (time->minute < 10) {
-			aux += "0";
-		}
-		aux += Functions::numberToString(time->minute) + ":";
-		if (time->minute < 10) {
-			aux += "0";
-		}
-		aux += Functions::numberToString(time->second) + " PM";
-	}
-	return aux;
+string Functions::timeToStringUS(Time time) {
+	return time.toStringUS();
 }
 
-string Functions::timeToStringBR(Time *time) {
-	string aux = "";
-	if (time->hour < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(time->hour) + ":";
-	if (time->minute < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(time->minute) + ":";
-	if (time->second < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(time->second);
-	return aux;
+string Functions::timeToStringBR(Time time) {
+	return time.toStringBR();
 }
 
-string Functions::dateToStringUS(Date *date) {
-	string aux = "";
-	if (date->mounth < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(date->mounth) + "-";
-	if (date->day < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(date->day) + "-";
-	aux += Functions::numberToString(date->year);
-	return aux;
+string Functions::dateToStringUS(Date date) {
+	return date.toStringShortUS();
 }
 
-string Functions::dateToStringBR(Date *date) {
-	string aux = "";
-	if (date->day < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(date->day) + "/";
-	if (date->mounth < 10) {
-		aux += "0";
-	}
-	aux += Functions::numberToString(date->mounth) + "/";
-	aux += Functions::numberToString(date->year);
-	return aux;
+string Functions::dateToStringBR(Date date) {
+	return date.toStringShortBR();
 }
 
 string Functions::getCurrentTimestampUS() {
-	time_t rawtime;
-	struct tm * timeinfo;
-	Date* date = new Date();
-	Time* nTime = new Time();
-	string aux;
+	Date nDate = Date::getCurrentDate();
+	Time nTime = Time::getCurrentTime();
 
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
+	std::string aux = Functions::timeToStringUS(nTime) + " - " +
+			Functions::dateToStringUS(nDate);
 
-	date->day = timeinfo->tm_mday;
-	date->mounth = timeinfo->tm_mon + 1;
-	date->year = timeinfo->tm_year + 1900;
-
-	nTime->hour  = timeinfo->tm_hour;
-	nTime->minute = timeinfo->tm_min;
-	nTime->second = timeinfo->tm_sec;
-
-	//delete timeinfo;
-
-	aux = Functions::timeToStringUS(nTime) + " - " +
-			Functions::dateToStringUS(date);
-
-	delete nTime;
-	delete date;
 	return aux;
 }
 
 string Functions::getCurrentTimestampBR() {
-	time_t rawtime;
-	struct tm * timeinfo;
-	Date* date = new Date();
-	Time* nTime = new Time();
-	string aux;
+	Date nDate = Date::getCurrentDate();
+	Time nTime = Time::getCurrentTime();
 
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
+	std::string aux = Functions::timeToStringBR(nTime) + " - " +
+			Functions::dateToStringBR(nDate);
 
-	date->day = timeinfo->tm_mday;
-	date->mounth = timeinfo->tm_mon + 1;
-	date->year = timeinfo->tm_year + 1900;
-
-	nTime->hour  = timeinfo->tm_hour;
-	nTime->minute = timeinfo->tm_min;
-	nTime->second = timeinfo->tm_sec;
-
-	//delete timeinfo;
-
-	aux = Functions::timeToStringBR(nTime) + " - " +
-			Functions::dateToStringBR(date);
-
-	delete nTime;
-	delete date;
 	return aux;
 }
 
