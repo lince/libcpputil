@@ -22,34 +22,98 @@ namespace logger {
 
 typedef int LOGGER_STYLE;
 
-
+/**
+ * This class manages the log options and decides which concrete logger will be used.
+ */
 class LoggerManager {
 public:
+	/**
+	 * Enumeration that holds the possibles concrete loggers.
+	 * - DEFAULT: LoggerDefault
+	 * - LOGFILE: LoggerLogFile
+	 * - NETWORKSTREAM: LoggerNetworkStream
+	 * - MULTILOGGER: Allows diferent concrete loggers at the same time (Not implemented yet.)
+	 * - COLOR: LoggerColor
+	 */
 	enum LoggerStyle {
 		DEFAULT,
 		LOGFILE,
 		NETWORKSTREAM,
 		MULTILOGGER,
 		COLOR};
-    enum RegionalOpt{ USA, BRAZIL};
 
-private:
-    LoggerManager();
+	/**
+	 * Enumeration that holds regional options for the logger.
+	 * Default is USA.
+	 * - USA
+	 * - BRAZIL
+	 */
+    enum RegionalOpt{
+    	USA,
+    	BRAZIL};
 
 public:
+    /**
+     * Destructor
+     */
     virtual ~LoggerManager();
+
+    /**
+     * This methods returns a pointer to the singleton of the LoggerManager.
+     * @return A pointer to the LoggerManager unique instance.
+     */
     static LoggerManager *getInstance();
 
+    /**
+     * Read the log configuration from a xml file.
+     * @param filePath The name of the configuration file to be read.
+     */
     void readConfigurationFile(std::string filePath);
 
+    /**
+     * Add classes to blocked-class list.
+     * Classes in this list will not be able to post logger messages with LoggerLvl
+     * lower than ERROR.
+     * @param completeClassName Name of the class to be added.
+     */
     void addBlockedClassList(std::string completeClassName);
+
+    /**
+     * Remove classes for the blocked-class list.
+     * @param completeClassName The name of the class to be removed.
+     * @return true, if the class was removed; false, otherwise.
+     */
     bool removeBlockedClassList(std::string completeClassName);
+
+    /**
+     * Verifies if a class is in the blocked-class lsit.
+     * @param completeClassName The name of the class to be checked.
+     * @return true, if the class is the list; false, otherwise.
+     */
     bool isBlockedClass(std::string completeClassName);
 
+    /**
+     * Returns the RegionalOpt of the logger.
+     * @return An item of RegionalOpt enumeration.
+     */
     RegionalOpt getRegionalOpt();
+
+    /**
+     * This method determines the RegionalOpt of the logger.
+     * @param regionalOpt The RegionalOpt to be selected.
+     */
     void setRegionalOpt(RegionalOpt regionalOpt);
 
+    /**
+     * This method determines the LoggerLvl of the logger.
+     * @param loggerLvl The LoggerLvl to be selected.
+     */
     void setLoggerLvl(Logger::LoggerLvl loggerLvl);
+
+    /**
+     * Returns the Logger::LoggerLvl of the logger.
+     * @return An item of Logger::LoggerLvl enumeration.
+     */
     Logger::LoggerLvl getLoggerLvl();
 
     void setLoggerStyle(LoggerStyle loggerStyle);
@@ -75,6 +139,11 @@ public:
     static LoggerStyle stringToLoggerStyle(std::string str);
     static std::string loggerStyleToString(LoggerStyle loggerStyle);
 
+
+private:
+    LoggerManager();
+	Logger* CreateLoggerInstance();
+
 private:
     static LoggerManager* _instance;
     static Logger* loggerInstance;
@@ -92,9 +161,6 @@ private:
 	LoggerLogFile::WriteMode writemode;
 
 	LoggerColor::Color* colors;
-
-private:
-	Logger* CreateLoggerInstance();
 
 friend class Logger;
 };

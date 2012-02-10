@@ -13,8 +13,16 @@
 namespace cpputil {
 namespace logger {
 
+/**
+ * The simplest concrete array that prints the messages on the standard output stream.
+ */
 class LoggerDefault : public Logger {
 public:
+
+	/**
+	 * Constructor.
+	 * @param loggerLvl The lowest loggerLvl that will be reported.
+	 */
 	LoggerDefault(Logger::LoggerLvl loggerLvl);
 
 protected:

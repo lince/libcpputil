@@ -1,10 +1,10 @@
 /*Nota.
  Esta classe não foi desenvolvida por nós. Apenas a adaptamos para utilizar no miniprojeto.
- 
+
  A versão original desta classe pode ser encontrada em:
  http://svn.softwarepublico.gov.br/trac/ginga/browser/telemidia-util-cpp/trunk/include/Thread.h
  http://svn.softwarepublico.gov.br/trac/ginga/browser/telemidia-util-cpp/trunk/src/Thread.cpp
- 
+
  É necessário se cadastrar no site http://www.softwarepublico.gov.br/ para ter acesso ao svn.
  */
 
@@ -16,115 +16,109 @@
 #include "ThreadExceptionListener.h"
 
 namespace cpputil {
-//! Classe virtual pura que representa uma Thread.
-/*! Esta classe tem um comportamento semelhante a classe Thread da linguagem Java.
- * Qualquer classe que deseje ser uma Thread deve extender esta classe e sobreescrever
- * o método run, inserindo neste a função de entrada do novo Thread que será utilizado.
- * O novo thread iniciará sua execução quando o método start for evocado.
+
+/**
+ * This abstracted class can be used to create and control threads in a Java-Like style.
+ * Any class that extend Thread will must implement the method run. When the method
+ * start is called, a new thread will be started and the method run will be executed
+ * by the new thread.
  */
-  class Thread {
-	protected:
-		//! variável que armazena a thread de mutex
-		pthread_mutex_t threadMutex;
-		
-		//! variável que armazena a condição da thread de "está dormindo"
-		bool isSleeping;
-		
-		//! variável que armazena a flag de mutex
-		pthread_mutex_t threadFlagMutex;
-		
-		//! pthread que armazena a flag de condição 
-		pthread_cond_t threadFlagConditionVariable;
-		
-		//! variável que armazena a condição da thread de "está esperando"
-		bool isWaiting;
-		
-		//! variável que armazena a thread flag de trancamento até ser dado um sinal
-		pthread_mutex_t threadFlagMutexLockUntilSignal;
-		
-		//! pthread que armazena a flag de condição de trancamento até ser dado um sinal
-		pthread_cond_t threadFlagCVLockUntilSignal;
 
-		//! método virtual que executa a thread
-		virtual void run() = 0;
+class Thread {
+public:
+	/*
+	 * Constructor.
+	 * It must be called by all the classes that extends this.
+	 */
+	Thread();
 
-		ThreadExceptionListener* exceptionlistener;
+	/**
+	 * Destrutor.
+	 */
+	virtual ~Thread();
 
-	private:
-		//! armazena a ID da thread
-		pthread_t threadId_;
-		
-		//! Utilizada pela blibioteca pthreads para iniciar.
-		/*! A biblioteca pthreads faz com que as threads tenham seus pontos de entrada
-		 * uma função que retorna um ponteiro para void e tem como parametro outro ponteiro para void.
-		 * Este método estático da classe é esta função. 
-		 * Ela é evocada pelo método start que passa como parametro a instância que implementa thread
-		 * para qual start foi evocada, esta função então chama o método run desta instância.
-		 */
-		static void* function(void* ptr);
+	/**
+	 * This methods starts the execution of the thread.
+	 */
+	virtual void start();
 
-	public:
-		//! contrutor padrão
-		/*!
-			inicializa:
-			variáveis tipo bool: isSleeping; isWaiting;
-			thread mutex type: threadMutex; threadFlagMutex; threadFlagMutexLockUntilSignal;
-			thread conditional variable type: threadFlagConditionVariable; threadFlagCVLockUntilSignal;
-		*/
-		Thread();
-		
-		//! destrutor
-		/*!
-			destrói todas as pthread's
-		*/
-		virtual ~Thread();
-		
-		//! Inicia a execução da Thread
-		virtual void start();
-		
-		//! Faz a thread por alguns segundos.
-		/*!
-			\param seconds tempo em segundos que a Thread deve durmir.
-		*/
-		bool sleep(long int seconds);
-		
-		//! Faz a thread por alguns milissegundos
-		/*!
-		 	\param milliseconds tempo em milissegundos que a Thread deve durmir
-		 */
-		bool usleep(long int milliseconds);
-		
-		//! libera pthread de condição
-		/*!
-			se tiver dormindo então libera a pthread de condição threadFlagConditionVariable.
-		*/
-		void wakeUp();
-		
-		//! tranca a pthread
-		/*!
-			tranca a pthread threadMutex.
-		*/
-		void lock();
-		
-		//! destranca a pthread
-		/*!
-			destranca a pthread threadMutex.
-		*/
-		void unlock();
-		
-		//! espera por alguma condição de destrancamento
-		void waitForUnlockCondition();
-		
-		//! verifica se a condição de destrancamento foi satisfeita
-		/*!
-			se estiver esperando, então emite "signal" e 
-			libera a pthread de condição threadFlagCVLockUntilSignal
-			
-		*/
-		bool unlockConditionSatisfied();
+	/**
+	 * This methods makes the thread sleeps for a specified time.
+	 * @param seconds Time that the thread will sleep in seconds.
+	 * @return true, if the thread had sleepet the specified time; false, if had woke up befero the time.
+	 */
+	bool sleep(long int seconds);
 
-		void setExceptionListener(ThreadExceptionListener* listener);
-  };
+	/**
+	 * This methods makes the thread sleeps for a specified time.
+	 * @param milliseconds Time that the thread will sleep in milliseconds.
+	 * @return true, if the thread had sleepet the specified time; false, if had woke up befero the time.
+	 */
+	bool usleep(long int milliseconds);
+
+	/**
+	 * This method wake up an sleeping thread.
+	 */
+	void wakeUp();
+
+	/**
+	 * This method can be used to generate mutual exclusion in the thread, locking a
+	 * region.
+	 * @sa Mutex
+	 */
+	void lock();
+
+	/**
+	 * This method can be used to generate mutual exclusion in the thread, unlocking a
+	 * region.
+	 * @sa Mutex
+	 */
+	void unlock();
+
+	/**
+	 * This method can be used to make the thread wait for an condition to be matt.
+	 * @sa LockedCondition
+	 */
+	void waitForUnlockCondition();
+
+	/**
+	 * This method sinalize that the condition by which the thread was waiting was matted.
+	 * @sa LockedCondition
+	 */
+	bool unlockConditionSatisfied();
+
+	/**
+	 * Register the instance of ThreadExceptionListener that will handle the
+	 * exceptions throwed by the thread.
+	 * @param listener The instance that will catch the exceptions.
+	 */
+	void setExceptionListener(ThreadExceptionListener* listener);
+
+protected:
+
+	/**
+	 * This is the method by which the thread will start its execution.
+	 * This method must be implemented by all the class that extends Thread.
+	 */
+	virtual void run() = 0;
+
+	pthread_mutex_t threadMutex;
+	bool isSleeping;
+
+	pthread_mutex_t threadFlagMutex;
+	pthread_cond_t threadFlagConditionVariable;
+	bool isWaiting;
+
+	pthread_mutex_t threadFlagMutexLockUntilSignal;
+	pthread_cond_t threadFlagCVLockUntilSignal;
+
+private:
+	ThreadExceptionListener* exceptionlistener;
+	pthread_t threadId_;
+	static void* function(void* ptr);
+};
+
+
 }
 
 #endif /*THREAD_H_*/
