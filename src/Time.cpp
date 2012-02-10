@@ -7,18 +7,9 @@
  *       E-mail: caio_viel@dc.ufscar.br
  */
 
-#include "../include/IllegalParameterException.h";
-
 #include "../include/Functions.h"
-
+#include "../include/IllegalParameterException.h"
 #include "../include/Time.h"
-
-#include <ctime>
-#include <ctype.h>
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <sys/timeb.h>
-#include <sys/time.h>
 
 #include <ctime>
 #include <ctype.h>
@@ -61,7 +52,7 @@ void Time::setHour(int hour) {
 		this->hour = hour;
 	} else {
 		throw IllegalParameterException(
-				"Invalid value for hour: " + Functions::numberToString(hour),
+				"Invalid value for hour: " + cpputil::Functions::numberToString(hour),
 				"cpputil::Time",
 				"setHour(int)");
 	}
@@ -176,51 +167,21 @@ Time Time::getCurrentTime() {
 }
 
 Time Time::operator +(const int seconds) const {
-	Time auxTime(*this);
-	auxTime.second += seconds;
-	if (auxTime.second >= 60) {
-		int minutes = auxTime.second / 60;
-		auxTime.second = auxTime.second % 60;
-		auxTime.minute += minutes;
-	}
-
-	if (auxTime.minute >= 60) {
-		int hours = auxTime.minute / 60;
-		auxTime.minute = auxTime.minute % 60;
-		auxTime.hour += hours;
-	}
-
-	if (auxTime.hour >= 24) {
-		auxTime.hour = auxTime.hour % 24;
-	}
-	return auxTime;
+	long tSeconds = this->toSeconds() + seconds;
+	return Time::secondsToTime(tSeconds);
 }
 
 Time Time::operator -(const int seconds) const {
-	Time auxTime(*this);
-	auxTime.second -= seconds;
-	while (auxTime.second < 0) {
-		auxTime.second += 60;
-		auxTime.minute -= 1;
-	}
-
-	while (auxTime.minute < 0) {
-		auxTime.minute += 60;
-		auxTime.hour -= 1;
-	}
-
-	while (auxTime.hour < 0) {
-		auxTime.hour += 24;
-	}
-	return auxTime;
+	long tSeconds = this->toSeconds() - seconds;
+	return Time::secondsToTime(tSeconds);
 }
 
-int Time::toSeconds() const {
-	return this->second + this->minute*60 + this->hour*3600;
+long Time::toSeconds() const {
+	return this->second + this->minute*60 + this->hour*3600L;
 }
 
-Time Time::operator -(const Time & time) const {
-	return *this - time.toSeconds();
+long Time::operator -(const Time & time) const {
+	return this->toSeconds() - time.toSeconds();
 }
 
 Time & Time::operator =(const Time & time) {
@@ -315,10 +276,13 @@ void Time::setTimeFormat(TimeFormat timeFormat) {
 	this->timeFormat = timeFormat;
 }
 
-Time Time::secondsToTime(int seconds) {
-	Time aux(0,0,0);
-	aux += seconds;
-	return aux;
+Time Time::secondsToTime(long seconds) {
+	int h, m, aux, s;
+	h = (int) (seconds/3600);
+	aux = (int) (seconds%3600);
+	m = (int) (aux/60);
+	s = (int) (aux%60);
+	return Time(h, m, s);
 }
 
 std::ostream &operator<<(std::ostream &out, const Time& time) {

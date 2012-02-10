@@ -28,7 +28,7 @@ using namespace std;
 
 namespace cpputil {
 
-inline string Functions::numberToString(double value) {
+string Functions::numberToString(double value) {
 	stringstream out;
 	out << value;
 	string s = out.str();

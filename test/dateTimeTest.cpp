@@ -6,34 +6,47 @@ using namespace cpputil;
 using namespace std;
 
 int main() {
-	Time time1(23,40,50);
-	time1.setTimeFormat(Time::BR_FORMAT);
-	Time time2 = Time::getCurrentTime();
-	Time time3(time2);
-	Time time4(11,11,11);
+	Date date1(1,1,2012);
+	Date date2(1,2,2012);
+	Date date3(1,1,2013);
+	Date date4(date1);
+	cout << "date1: " << date1 << " -> " << date1.toDays() << " ->  "
+			<< Date::daysToDate(date1.toDays())<< endl;
 
-	cout << "time1: " << time1 << endl;
-	cout << "time2: " << time2 << endl;
-	cout << "time3: " << time3 << endl;
-	cout << "time4: " << time4 << endl;
+	cout << "date2: " << date2 << " -> " << date2.toDays() << " ->  "
+			<< Date::daysToDate(date2.toDays()) << endl;
 
-	time4.setTime(20, 20 ,20);
-	cout << "time4 after setted: " << time4 << endl;
+	cout << "date3: " << date3 << " -> " << date3.toDays() << " ->  "
+			<< Date::daysToDate(date3.toDays()) << endl;
 
-	cout << "time1 + 60: " << time1 + 60 << endl;
-	cout << "time2 + 3666: " << time2 + 3666 << endl;
-	cout << "time3 - 89: " << time3 - 89 << endl;
-	cout << "time4 - 60: " << time4 - 60 << endl;
+	cout << "date4: " << date4.toStringShortBR() << " -> " << date4.toDays() << " ->  "
+			<< Date::daysToDate(date4.toDays()) << endl;
 
-	time1.setTime(10, 20, 20);
-	time1.setTimeFormat(Time::BR_FORMAT);
-	time2.setTime(10, 20, 40);
-	time2.setTimeFormat(Time::BR_FORMAT);
-	cout << time2 << " - " << time1 << " = " << time2 - time1 << endl;
+	cout << "date1 > date2: " << (date1 > date2) << endl;
+	cout << "date3 > date4: " << (date3 > date4) << endl;
+	cout << "date1 >= date2: " << (date1 >= date2) << endl;
+	cout << "date3 >= date4: " << (date1 >= date2) << endl;
 
-	Date date(80,15,-9);
+	cout << "date1 < date2: " << (date1 < date2) << endl;
+	cout << "date3 < date4: " << (date3 < date4) << endl;
+	cout << "date1 <= date2: " << (date1 <= date2) << endl;
+	cout << "date3 <= date4: " << (date1 <= date2) << endl;
 
-	cout << date.toString() << endl;
+	cout << "date1 == date2: " << (date1 == date2) << endl;
+	cout << "date1 == date3: " << (date1 == date3) << endl;
+	cout << "date1 == date4: " << (date1 == date4) << endl;
+
+	cout << "date1 != date2: " << (date1 != date2) << endl;
+	cout << "date1 != date3: " << (date1 != date3) << endl;
+	cout << "date1 != date4: " << (date1 != date4) << endl;
+
+	cout << "date2 - date1: " << (date2 - date1) << endl;
+	cout << "date3 - date1: " << (date3 - date1) << endl;
+	cout << "date4 - date1: " << (date4 - date1) << endl;
+
+	cout << "date1 + 1: " << (date1 + 1) << endl;
+	cout << "date1 + 365: " << (date1 + 365) << endl;
+	cout << "date1 - 30: " << (date1 - 30) << endl;
 
 	return 0;
 }

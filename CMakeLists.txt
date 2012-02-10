@@ -13,9 +13,9 @@ SET(CMAKE_CXX_FLAGS "-DTIXML_USE_TICPP")
 SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined -fPIC")
 
 ADD_LIBRARY(cpputil 
+			src/Functions.cpp 
 			src/Time.cpp
 			src/Date.cpp
-			src/Functions.cpp 
 			src/Mutex.cpp 
 			src/SimpleException.cpp 
 			src/Thread.cpp 
@@ -38,6 +38,8 @@ ADD_LIBRARY(cpputil
 			
 SET(install_headers
 			include/Functions.h
+			include/Date.h
+			include/Time.h
 			include/SimpleException.h
 			include/IllegalParameterException.h
 			include/InitializationException.h

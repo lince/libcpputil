@@ -7,6 +7,13 @@
  *       E-mail: caio_viel@dc.ufscar.br
  */
 
+#include <ctime>
+#include <ctype.h>
+#include <stdlib.h>
+#include <sys/socket.h>
+#include <sys/timeb.h>
+#include <sys/time.h>
+
 #include "../include/IllegalParameterException.h"
 #include "../include/InitializationException.h"
 #include "../include/Functions.h"
@@ -15,60 +22,13 @@
 
 namespace cpputil {
 
-Date::MonthData* Date::createMonthDate(std::string engName, std::string ptName, int days) {
-	Date::MonthData* month = new Date::MonthData();
-	month->engName = engName;
-	month->ptName = ptName;
-	month->numberOfDays = days;
-	return month;
-}
-
-Date::MonthData** Date::initializeMonthsDate() {
-	Date::MonthData** months = new Date::MonthData*[12];
-
-	months[0] = createMonthDate("January", "Janeiro", 31);
-	months[1] = createMonthDate("February", "Fevereiro", 28);
-	months[2] = createMonthDate("March", "Março", 31);
-	months[3] = createMonthDate("April", "Abril", 30);
-	months[4] = createMonthDate("May", "Maio", 31);
-	months[5] = createMonthDate("June", "Junho", 30);
-	months[6] = createMonthDate("July", "Julho", 31);
-	months[7] = createMonthDate("August", "Agosto", 31);
-	months[8] = createMonthDate("September", "Setembro", 30);
-	months[9] = createMonthDate("October", "Outubro", 31);
-	months[10] = createMonthDate("November", "Novembro", 30);
-	months[11] =  createMonthDate("December", "Dezembro", 31);
-	return months;
-}
-
 Date::MonthData** Date::months = initializeMonthsDate();
-
-Date::WeekDay* Date::createWeekDay(std::string engName, std::string ptName) {
-	Date::WeekDay* weekDay = new Date::WeekDay();
-	weekDay->engName = engName;
-	weekDay->ptName = ptName;
-	return weekDay;
-}
-
-Date::WeekDay** Date::initializeWeekDays() {
-	Date::WeekDay** weekDays = new Date::WeekDay*[7];
-
-	weekDays[0] = createWeekDay("Sunday", "Domingo");
-	weekDays[1] = createWeekDay("Monday", "Segunda-Feira");
-	weekDays[2] = createWeekDay("Tuesday", "Terça-Feira");
-	weekDays[3] = createWeekDay("Wednesday", "Quarta-Feira");
-	weekDays[4] = createWeekDay("Thursday", "Quinta-Feira");
-	weekDays[5] = createWeekDay("Friday", "Sexta-Feira");
-	weekDays[6] = createWeekDay("Saturday", "Sábado");
-	return weekDays;
-}
-
-Date::WeekDay** Date::weekDays = initializeWeekDays();
+char** Date::weekDaysBR = initializeWeekDaysBR();
+char** Date::weekDaysUS = initializeWeekDaysUS();
 
 Date::Date(int d, int m, int y) {
 	setDate(d, m, y);
 	dateFormat = Date::US_SHORT_FORMAT;
-	calcDayOfWeek();
 }
 
 Date::Date(const Date & date) {
@@ -100,6 +60,11 @@ void Date::setDateFormat(DateFormat dateFormat) {
 	this->dateFormat = dateFormat;
 }
 
+void Date::setDay(int day) {
+	_setDay(day);
+	calcDayOfWeek();
+}
+
 void Date::_setDay(int day) {
 	if (day >= 1 && day <= this->months[this->month-1]->numberOfDays) {
 		this->day = day;
@@ -113,20 +78,12 @@ void Date::_setDay(int day) {
 	}
 }
 
-void Date::_setMonth(int m)  {
-
-}
-
-void Date::_setYear(int y) {
-
-}
-
-void Date::setDay(int day) {
-
+void Date::setMonth(int month) {
+	_setMonth(month);
 	calcDayOfWeek();
 }
 
-void Date::setMonth(int month) {
+void Date::_setMonth(int month)  {
 	if (month >= 0 && month <= 12) {
 		this->month = month;
 	} else {
@@ -135,10 +92,15 @@ void Date::setMonth(int month) {
 				"cpputil::Date",
 				"setMonth(int)");
 	}
-	calcDayOfWeek();
+
 }
 
 void Date::setYear(int year) {
+	_setYear(year);
+	calcDayOfWeek();
+}
+
+void Date::_setYear(int year) {
 	if (year > 0) {
 		this->year = year;
 	} else {
@@ -147,13 +109,13 @@ void Date::setYear(int year) {
 				"cpputil::Date",
 				"setYear(int)");
 	}
-	calcDayOfWeek();
 }
 
 void Date::setDate(int d, int m, int y) {
-	setYear(y);
-	setMonth(m);
-	setDay(d);
+	_setYear(y);
+	_setMonth(m);
+	_setDay(d);
+	calcDayOfWeek();
 }
 
 void Date::setDate(const Date & date) {
@@ -163,7 +125,7 @@ void Date::setDate(const Date & date) {
 	this->dayOfWeek = date.dayOfWeek;
 }
 
-std::string Date::toString() {
+std::string Date::toString() const {
 	std::string aux;
 	switch(this->dateFormat) {
 	case Date::BR_LONG_FORMAT:
@@ -182,7 +144,7 @@ std::string Date::toString() {
 	return aux;
 }
 
-std::string Date::toStringShortBR() {
+std::string Date::toStringShortBR() const {
 	std::string aux = "";
 	if (this->day < 10) {
 		aux += "0";
@@ -196,29 +158,25 @@ std::string Date::toStringShortBR() {
 	return aux;
 }
 
-std::string Date::toStringLongUS() {
+std::string Date::toStringLongUS() const {
 	std::string aux = "";
-	if (this->year >= 1900) {
-		aux += this->getDayOfWeekStrUS() + ", ";
-	}
+	aux += this->getDayOfWeekStrUS() + ", ";
 	aux += this->months[this->month-1]->engName + " ";
 	aux += Functions::numberToString(this->day) + ", ";
 	aux += Functions::numberToString(this->year);
 	return aux;
 }
 
-std::string Date::toStringLongBR() {
+std::string Date::toStringLongBR() const {
 	std::string aux = "";
-	if (this->year >= 1900) {
-		aux += this->getDayOfWeekStrBR() + ", ";
-	}
+	aux += this->getDayOfWeekStrBR() + ", ";
 	aux += Functions::numberToString(this->day);
-	aux += " de " + this->months[this->month-1]->engName;
+	aux += " de " + this->months[this->month-1]->ptName;
 	aux += " de " + Functions::numberToString(this->year);
 	return aux;
 }
 
-std::string Date::toStringShortUS() {
+std::string Date::toStringShortUS() const {
 	std::string aux = "";
 	if (this->month < 10) {
 		aux += "0";
@@ -232,8 +190,7 @@ std::string Date::toStringShortUS() {
 	return aux;
 }
 
-int Date::getDayOfWeek() {
-	calcDayOfWeek();
+WeekDay::Type Date::getDayOfWeek() const {
 	return this->dayOfWeek;
 }
 
@@ -253,11 +210,11 @@ std::string Date::getDayOfWeekStr() const {
 }
 
 std::string Date::getDayOfWeekStrBR() const {
-	return this->weekDays[this->dayOfWeek-1]->ptName;
+	return this->weekDaysBR[this->dayOfWeek];
 }
 
 std::string Date::getDayOfWeekStrUS() const {
-	return this->weekDays[this->dayOfWeek-1]->engName;
+	return this->weekDaysUS[this->dayOfWeek];
 }
 
 Date Date::getCurrentDate() {
@@ -277,76 +234,76 @@ bool Date::isLeapYear() const {
 	return ((aux % 4) == 0);
 }
 
-Date Date::intToDate(long days) {
-	if (days < 0) {
+Date Date::daysToDate(long jd) {
+	int l, n, i, j, m, y, d;
+	/*if (d < 0) {
 		throw InitializationException(
 				"Trying to convert to date an invalid: "
-				+ Functions::numberToString(days),
+				+ Functions::numberToString(d),
 				"cpputil::Date",
 				"toInt()");
 	}
 
-	int completeYears = 1900 + days/365;
-	int remainingDays = days%365;
-	long leapYearAdjust = completeYears/4 - completeYears/100 + completeYears/400;
-	remainingDays -= leapYearAdjust;
-	/*while (remainingDays < 0) {
+	long y, ddd, mm, dd, mi;
 
-	}*/
-	return Date(1,1,1900);
+	y = (10000*d + 14780)/3652425;
+	ddd = d - (y*365 + y/4 - y/100 + y/400);
+	if (ddd < 0) {
+		y--;
+		ddd = d - (y*365 + y/4 - y/100 + y/400);
+	}
+	mi = (52 + 100*ddd)/3060;
+	y = y + (mi + 2)/12;
+	mm = (mi + 2)%12 + 1;
+	dd = ddd - (mi*306 + 5)/10 + 1;
+	return Date(dd, mm, y);*/
+
+    l = jd + 68569;
+    n = ( 4 * l ) / 146097;
+    l = l - ( 146097 * n + 3 ) / 4;
+    i = ( 4000 * ( l + 1 ) ) / 1461001;
+    l = l - ( 1461 * i ) / 4 + 31;
+    j = ( 80 * l ) / 2447;
+    d = l - ( 2447 * j ) / 80;
+    l = j / 11;
+    m = j + 2 - ( 12 * l );
+    y = 100 * ( n - 49 ) + i + l;
+    return Date(d, m, y);
 }
 
-long Date::toInt() const {
-	if (this->year < 1900) {
-		throw InitializationException(
-				"Trying to convert to integer a date before 1900: "
-				+ Functions::numberToString(this->year),
-				"cpputil::Date",
-				"toInt()");
-	}
+long Date::toDays() const {
+	/*long  y, m;
+	m = (this->month + 9)%12;
+	y = this->year - m/10;
+	return y*365 + y/4 - y/100 + y/400 + (m*306 + 5)/10 + (this->day - 1);*/
 
-	long daysOfCurrentYear = this->day;
-	for (int i = 0; i < this->month-1; i++) {
-		daysOfCurrentYear += this->months[i]->numberOfDays;
-	}
-
-	if (isLeapYear() && this->month > 2) {
-		daysOfCurrentYear++;
-	}
-
-	long completedYear = this->year - 1901;
-	long daysOfCompletedYear = 0;
-	if (completedYear > 0) {
-		daysOfCompletedYear = completedYear*365;
-	}
-
-	long leapYearAdjust = completedYear/4 - completedYear/100 + completedYear/400;
-
-	return daysOfCurrentYear + daysOfCompletedYear + leapYearAdjust;
+	return ( 1461 * ( year + 4800 + ( month - 14 ) / 12 ) ) / 4 +
+	          ( 367 * ( month - 2 - 12 * ( ( month - 14 ) / 12 ) ) ) / 12 -
+	          ( 3 * ( ( year + 4900 + ( month - 14 ) / 12 ) / 100 ) ) / 4 +
+	          day - 32075;
 }
 
-Date & Date::operator =(const Date & date) {
+Date & Date::operator=(const Date & date) {
 	if (this != &date) {
 		this->day = date.day;
 		this->month = date.month;
 		this->year = date.year;
 		this->dayOfWeek = date.dayOfWeek;
-		this->dayOfWeekCalculed = date.dayOfWeekCalculed;
 	}
 	return *this;
 }
 
-bool Date::operator ==(const Date & date) {
+bool Date::operator==(const Date & date) const {
 	return (this->day == date.day &&
 			this->month == date.month &&
 			this->year == date.year);
 }
 
-bool Date::operator !=(const Date & date) {
+bool Date::operator!=(const Date & date) const {
 	return !(*this == date);
 }
 
-bool Date::operator >=(const Date & date) {
+bool Date::operator>=(const Date & date) const {
 	if (this->year > date.year) {
 		return true;
 	} else if (this->year == date.year) {
@@ -359,7 +316,7 @@ bool Date::operator >=(const Date & date) {
 	return false;
 }
 
-bool Date::operator >(const Date & date) {
+bool Date::operator >(const Date & date) const {
 	if (this->year > date.year) {
 		return true;
 	} else if (this->year == date.year) {
@@ -372,7 +329,7 @@ bool Date::operator >(const Date & date) {
 	return false;
 }
 
-bool Date::operator <=(const Date & date) {
+bool Date::operator <=(const Date & date) const {
 	if (this->year < date.year) {
 		return true;
 	} else if (this->year == date.year) {
@@ -385,7 +342,7 @@ bool Date::operator <=(const Date & date) {
 	return false;
 }
 
-bool Date::operator <(const Date & date) {
+bool Date::operator <(const Date & date) const {
 	if (this->year < date.year) {
 		return true;
 	} else if (this->year == date.year) {
@@ -398,43 +355,103 @@ bool Date::operator <(const Date & date) {
 	return false;
 }
 
-long Date::operator -(const Date & date) {
-	long date1 = this->toInt();
-	long date2 = this->toInt();
+long Date::operator -(const Date & date) const {
+	long date1 = this->toDays();
+	long date2 = this->toDays();
 	return date1 - date2;
 }
 
-Date Date::operator -(const int days) {
-	long date1 = this->toInt();
-	return Date::intToDate(date1 - days);
+Date Date::operator -(const int days) const {
+	long date1 = this->toDays();
+	return Date::daysToDate(date1 - days);
 }
 
-Date Date::operator +(const int days) {
-	long date1 = this->toInt();
-	return Date::intToDate(date1 + days);
+Date Date::operator +(const int days) const {
+	long date1 = this->toDays();
+	return Date::daysToDate(date1 + days);
 }
 
 void Date::operator -=(const int days) {
 	*this = *this - days;
+	calcDayOfWeek();
 }
 
 void Date::operator +=(const int days) {
 	*this = *this + days;
+	calcDayOfWeek();
+}
+
+char** Date::initializeWeekDaysBR() {
+	char** wd = new char*[7];
+	wd[0] = "Domingo";
+	wd[1] = "Segunda-Feira";
+	wd[2] = "Terça-Feira";
+	wd[3] = "Quarta-Feira";
+	wd[4] = "Quinta-Feira";
+	wd[5] = "Sexta-Feira";
+	wd[6] = "Sábado";
+	return wd;
+}
+
+char** Date::initializeWeekDaysUS() {
+	char** wd = new char*[7];
+	wd[0] = "Sunday";
+	wd[1] = "Monday";
+	wd[2] = "Tuesday";
+	wd[3] = "Wednesday";
+	wd[4] = "Thursday";
+	wd[5] = "Friday";
+	wd[6] = "Saturday";
+	return wd;
+}
+
+Date::MonthData* Date::createMonthDate(std::string engName, std::string ptName, int days) {
+	Date::MonthData* month = new Date::MonthData();
+	month->engName = engName;
+	month->ptName = ptName;
+	month->numberOfDays = days;
+	return month;
+}
+
+Date::MonthData** Date::initializeMonthsDate() {
+	Date::MonthData** months = new Date::MonthData*[12];
+
+	months[0] = createMonthDate("January", "Janeiro", 31);
+	months[1] = createMonthDate("February", "Fevereiro", 28);
+	months[2] = createMonthDate("March", "Março", 31);
+	months[3] = createMonthDate("April", "Abril", 30);
+	months[4] = createMonthDate("May", "Maio", 31);
+	months[5] = createMonthDate("June", "Junho", 30);
+	months[6] = createMonthDate("July", "Julho", 31);
+	months[7] = createMonthDate("August", "Agosto", 31);
+	months[8] = createMonthDate("September", "Setembro", 30);
+	months[9] = createMonthDate("October", "Outubro", 31);
+	months[10] = createMonthDate("November", "Novembro", 30);
+	months[11] =  createMonthDate("December", "Dezembro", 31);
+	return months;
 }
 
 void Date::calcDayOfWeek() {
-	//January 1st, 1900 was a Monday.
-	if (dayOfWeekCalculed) {
-		return;
-	}
+	//*static Date gregorianLimite(4, 10, 1582);
+	int a, y, m, q, d;
+	a = (14 - month) / 12;
+	y = year - a;
+	m = month + 12 * a - 2;
+	//if (*this > gregorianLimite) {
+		q = day + 31*m/12 + y + y/4 - y/100 + y/400;
+	//} else {
+		//q = day + 31*m/12 + y + y/4 + 5;
+	//}
 
-	if (this->year >= 1900) {
-		int days = toInt();
-		dayOfWeek = 1 + ((days%7) + 1)%7;
-	} else {
-		dayOfWeek = -1;
-	}
-	dayOfWeekCalculed = true;
+	d = q % 7;
+	this->dayOfWeek = (WeekDay::Type) d;
+}
+
+std::ostream &operator<<(std::ostream &out,
+		   const Date& date) {
+
+	out<<date.toString();
+	return out;
 }
 
 } /* namespace cpputil */
