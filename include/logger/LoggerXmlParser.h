@@ -22,6 +22,9 @@ using namespace ticpp;
 namespace cpputil {
 namespace logger {
 
+/**
+ * A parser capable of read the logger configuration files.
+ */
 class LoggerXmlParser {
 public:
 	/**

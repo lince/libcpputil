@@ -117,7 +117,7 @@ public:
 	/**
 	 * This method is used to send data to the remote socket.
 	 * It's a blocking call. After call receiveData(), the current thread will be blocked until the remote socket receive the data.
-	 * @param An object DataPayload with the data to send.
+	 * @param data An object DataPayload with the data to send.
 	 * @throw InitializationException If the socket hasn't been connected yet.
 	 * @throw NetworkException If some error occurs.
 	 */
@@ -146,7 +146,7 @@ protected:
 	 * Constructor for already instanceted OS sockets.
 	 * This method is used ServerSocketTCP to create the instances of SocketTCP
 	 * @param clientSocket The id of the OS socket,
-	 * @param clientAddress The ip address of the socket.
+	 * @param clientAddres The ip address of the socket.
 	 */
 	SocketTCP(int clientSocket, sockaddr_in clientAddres);
 

@@ -1,0 +1,63 @@
+-------------------- Library Cpp Util --------------------
+
+The library cpp util contains some utility classes for C++ development. 
+It's developed for Linux, but can be compiled to other plataforms because it use cmake for generate compiling scripts.
+
+Some features presentes are:
+
+-> Easy and lightweight logging API;
+-> Threading and Sinchronization classes;
+-> High-Level network sockets API;
+-> Pre-built and easily extensible exceptions classes; e
+-> Complete Date and Time class support;
+
+-------------------- Dependencies --------------------
+
+The libcpputil has very few dependences. So, it's very easy to be compiled.
+
+-> cmake (sudo apt-get install cmake)
+-> uuid (sudo apt-get install uuid-dev)
+
+-------------------- Installing --------------------
+
+The steps to compile and install the libcpputil are the following:
+
+$ git clone git://github.com/lince/libcpputil.git libcpputil
+$ cd libcpputil
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+$ sudo make install
+
+Optionaly, you also can generate the documentation of the library, in the root directory:
+
+$ dogygen
+
+-------------------- Directories Structure --------------------
+
+The root director libcpputil contains four directories and, due to installing process, two more can be generated.
+The directories and their descriptions are the following:
+
+-> include: It's here that the c++ headers file are.
+-> src: It's here that the c++ source files of the library are.
+-> ticpp: It's here that the tinyxml c++ code is. This code is integrated with our code because the tinyxml doesn't offers normal libraries.
+-> test: It's here that several programs designed to test our library are. You can use it as samples code.
+-> build: This directory is used durring the compilation process. You can delete it if you want.
+-> doc: It's that the doxygen puts the generated documentation files.
+
+-------------------- The MIT License (MIT) --------------------
+
+Copyright (c) 2012 LINCE-UFSCar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+-------------------- Contact --------------------
+
+You can access our page on github: https://github.com/lince/libcpputil
+Or send e-mail directly to the developer: caioviel@gmail.com
