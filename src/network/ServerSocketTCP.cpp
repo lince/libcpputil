@@ -88,9 +88,9 @@ void ServerSocketTCP::startListen(unsigned int max) {
 	TRACE(logger, "startListen(unsigned int max)");
 #endif
 
-	if (max > 128) {
+	if (max > 128 || max < 0) {
 		throw IllegalParameterException(
-				"Tried a backlog number bigger than the maximum allowed (128).",
+				"Tried a backlog number bigger than the maximum allowed (128) or lesser than zero.",
 				"cpputil::network::ServerSocketTCP",
 				"startListen(unsigned int)");
 	}

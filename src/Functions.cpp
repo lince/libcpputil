@@ -43,28 +43,11 @@ Time Functions::getCurrentTime() {
 	return Time::getCurrentTime();
 }
 
-string Functions::timeToStringUS(Time time) {
-	return time.toStringUS();
-}
-
-string Functions::timeToStringBR(Time time) {
-	return time.toStringBR();
-}
-
-string Functions::dateToStringUS(Date date) {
-	return date.toStringShortUS();
-}
-
-string Functions::dateToStringBR(Date date) {
-	return date.toStringShortBR();
-}
-
 string Functions::getCurrentTimestampUS() {
 	Date nDate = Date::getCurrentDate();
 	Time nTime = Time::getCurrentTime();
 
-	std::string aux = Functions::timeToStringUS(nTime) + " - " +
-			Functions::dateToStringUS(nDate);
+	std::string aux = nTime.toStringUS() + " - " + nDate.toStringShortUS();
 
 	return aux;
 }
@@ -73,9 +56,7 @@ string Functions::getCurrentTimestampBR() {
 	Date nDate = Date::getCurrentDate();
 	Time nTime = Time::getCurrentTime();
 
-	std::string aux = Functions::timeToStringBR(nTime) + " - " +
-			Functions::dateToStringBR(nDate);
-
+	std::string aux = nTime.toStringBR() + " - " + nDate.toStringShortBR();
 	return aux;
 }
 
@@ -95,22 +76,15 @@ double Functions::getCurrentTimeMillis() {
 	return (double)t.time*1000 + (double)t.millitm - startTimeMills;
 }
 
-bool Functions::isIPv4(const char* ip){
-    if(ip == NULL) {
-        return false;
-    } else {
-        sockaddr_in sa;
-        return (inet_pton(AF_INET, ip, &(sa.sin_addr)) == 1);
-    }
+bool Functions::isIPv4(std::string ip){
+	sockaddr_in sa;
+	return (inet_pton(AF_INET, ip.c_str(), &(sa.sin_addr)) == 1);
 }
 
-bool Functions::isIPv6(const char* ip){
-    if(ip == NULL) {
-        return false;
-    } else {
-        sockaddr_in6 sa;
-        return (inet_pton(AF_INET6, ip, &(sa.sin6_addr)) == 1);
-    }
+bool Functions::isIPv6(std::string ip){
+
+	sockaddr_in6 sa;
+	return (inet_pton(AF_INET6, ip.c_str(), &(sa.sin6_addr)) == 1);
 }
 
 std::string Functions::generateUUID() {

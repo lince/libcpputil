@@ -123,9 +123,10 @@ void LoggerManager::setRegionalOpt(RegionalOpt regionalOpt) {
 }
 
 LoggerManager::RegionalOpt LoggerManager::stringToRegionalOpt(string str) {
-	if (str == "usa" || str== "USA") {
+	string aux = Functions::toUpperCase(str);
+	if (aux == "USA") {
 		return LoggerManager::USA;
-	} else if (str == "brazil" || str== "BRAZIL") {
+	} else if (aux == "BRAZIL") {
 		return LoggerManager::BRAZIL;
 	} else {
 		throw LoggerException(
@@ -144,15 +145,16 @@ string LoggerManager::regionalOptToString(RegionalOpt regionalOpt) {
 }
 
 LoggerManager::LoggerStyle LoggerManager::stringToLoggerStyle(string str) {
-	if (str == "default" || str== "DEFAULT") {
+	string aux = Functions::toUpperCase(str);
+	if (aux == "DEFAULT") {
 		return LoggerManager::DEFAULT;
-	} else if (str == "networkstream" || str== "NETWORKSTREAM") {
+	} else if (aux == "NETWORKSTREAM") {
 		return LoggerManager::NETWORKSTREAM;
-	} else if (str == "logfile" || str== "LOGFILE") {
+	} else if (aux == "LOGFILE") {
 		return LoggerManager::LOGFILE;
-	} else if (str == "color" || str== "COLOR") {
+	} else if (aux == "COLOR") {
 		return LoggerManager::COLOR;
-	} else if (str == "multilogger" || str== "MULTILOGGER") {
+	} else if (aux == "MULTILOGGER") {
 		return LoggerManager::MULTILOGGER;
 	} else {
 		throw LoggerException(

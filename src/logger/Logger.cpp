@@ -164,17 +164,18 @@ string Logger::loggerLvlToString(LoggerLvl loggerLvl) {
 }
 
 Logger::LoggerLvl Logger::stringToLoggerLvl(string str) {
-	if (str == "trace" || str== "TRACE") {
+	string aux = Functions::toUpperCase(str);
+	if (aux == "TRACE") {
 		return Logger::TRACE;
-	} else if (str == "debug" || str== "DEBUG") {
+	} else if (aux == "DEBUG") {
 		return Logger::DEBUG;
-	} else if (str == "info" || str== "INFO") {
+	} else if (aux == "INFO") {
 		return Logger::INFO;
-	} else if (str == "warning" || str== "WARNING") {
+	} else if (aux == "WARNING") {
 		return Logger::WARNING;
-	} else if (str == "error" || str== "ERROR") {
+	} else if (aux == "ERROR") {
 		return Logger::ERROR;
-	} else if (str == "fatal" || str== "FATAL") {
+	} else if (aux == "FATAL") {
 		return Logger::TRACE;
 	} else {
 		throw LoggerException(

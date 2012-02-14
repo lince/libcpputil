@@ -9,6 +9,12 @@ using namespace std;
 namespace cpputil {
 namespace network {
 
+DataPayload::DataPayload(const std::string& str) {
+	lenght = str.length();
+	data = new unsigned char[lenght];
+	memcpy(data, str.c_str(), lenght);
+}
+
 
 DataPayload::DataPayload(const int lenght, unsigned char* _data, bool copy) {
 	this->lenght = lenght;
@@ -20,17 +26,17 @@ DataPayload::DataPayload(const int lenght, unsigned char* _data, bool copy) {
 	}
 }
 
-DataPayload::DataPayload(std::string str) {
-	lenght = str.length();
-	data = new unsigned char[lenght];
-	memcpy(data, str.c_str(), lenght);
+DataPayload::~DataPayload() {
+	if (data) {
+		delete data;
+	}
 }
 
 int DataPayload::getLenght() {
 	return lenght;
 }
 
-unsigned char* DataPayload::getData() {
+const unsigned char* DataPayload::getData() {
 	return data;
 }
 
@@ -42,12 +48,6 @@ std::string DataPayload::getDataAsString() {
 	return s;
 }
 
-
-DataPayload::~DataPayload() {
-	if (data) {
-		delete data;
-	}
-}
 
 SocketTCP::SocketTCP(string ip, unsigned short port) {
 #ifdef USE_LOGGER
@@ -126,6 +126,13 @@ DataPayload* SocketTCP::receiveData() {
 	TRACE(logger, "reciveData()");
 #endif
 
+	if (!isConnected) {
+		throw InitializationException(
+				"Socket hasn't been connected yet.",
+				"cpputil::network::SocketTCP",
+				"receiveData()");
+	}
+
 	static unsigned char* buffer = new unsigned char[MAX_BUFFERSIZE];
 	int bytes = recv(_socket, buffer, MAX_BUFFERSIZE-1, 0);
 	if (bytes <= 0) {
@@ -143,6 +150,13 @@ int SocketTCP::sendData(DataPayload* data) {
 #ifdef USE_LOGGER
 	TRACE(logger, "sendData()");
 #endif
+
+	if (!isConnected) {
+		throw InitializationException(
+				"Socket hasn't been connected yet.",
+				"cpputil::network::SocketTCP",
+				"sendData(DataPayload*)");
+	}
 
 	int bytes = send(_socket, data->data, data->lenght, 0);
 	if (bytes < 0) {
@@ -166,6 +180,13 @@ unsigned short SocketTCP::getPortNumber() {
 }
 
 void SocketTCP::closeConnection() {
+	if (!isConnected) {
+		throw InitializationException(
+				"Socket hasn't been connected yet.",
+				"cpputil::network::SocketTCP",
+				"closeConnection()");
+	}
+
 	close(_socket);
 }
 

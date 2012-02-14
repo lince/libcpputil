@@ -116,27 +116,120 @@ public:
      */
     Logger::LoggerLvl getLoggerLvl();
 
+    /**
+     * This method determines the Logger::LoggerStyle  that will be used by the logger
+     * @param loggerStyle The Logger::LoggerStyle to be used.
+     */
     void setLoggerStyle(LoggerStyle loggerStyle);
+
+    /**
+     * Returns the Logger::LoggerStyle currently used by the logger
+     * @return An item of Logger::LoggerStyle enumeration.
+     */
     LoggerStyle getLoggerStyle();
 
+    /**
+     * Returns the ip address of the logger server for witch the LoggerNetworkStream send log messages.
+     * @return A string with the ip address.
+     */
     std::string getIpAddress();
+
+    /**
+     * Returns the name of the file used by the LoggerLogFile.
+     * @return A string with the file name.
+     */
     std::string getLogfileName();
+
+    /**
+     * Returns the port number of the logger server for witch the LoggerNetworkStream send log messages.
+     * @return A integer with the port number.
+     */
     unsigned short getPortNumber();
+
+    /**
+     * Returns the port network protocol used by the LoggerNetworkStream to communicate with the logger server.
+     * @return An item of LoggerNetworkStream::Protocol enumeration.
+     */
     LoggerNetworkStream::Protocol getProtocol();
+
+    /**
+     * Returns the write mode by which the LoggerLogFile will open the log file.
+     * @return An item of LoggerLogFile::WriteMode enumeration.
+     */
     LoggerLogFile::WriteMode getWritemode();
 
+    /**
+     * This method determines the ip address of the server for which the LoggerNetworkStream will send log messages.
+     * @param ipAddress The IPv4 Address of the log server.
+     */
     void setIpAddress(std::string ipAddress);
-    void setLogfileName(std::string logfileName);
+
+    /**
+     * This method determines the port number of the server for which the LoggerNetworkStream will send log messages.
+     * @param portNumber The port number of the Logger-Server.
+     */
     void setPortNumber(unsigned short  portNumber);
+
+    /**
+     * This method determines the Network protocol by which the LoggerNetworkStream will communicate with the log server
+     * @param protocol An item of the LoggerNetworkStream::Protocol representing the protocol to be used.
+     */
     void setProtocol(LoggerNetworkStream::Protocol  protocol);
+
+    /**
+     * This method determines the name of the log file to be opened by the LoggerLogFile.
+     * @param logfileName The name of the file to be opened.
+     */
+    void setLogfileName(std::string logfileName);
+
+    /**
+     * This method determines the write mode by which the log file will be opened by the LoggerLogFile.
+     * @param writemode An item of the LoggerLogFile::WriteMode representing the write mode to be used.
+     */
     void setWritemode(LoggerLogFile::WriteMode  writemode);
 
+    /**
+     * This method allow to set the color used by LoggerColor for log messages of one Logger::LoggerLvl.
+     * @param lvl The Logger::LoggerLvl which will be setted the color.
+     * @param color In item of Logger::Color enumeration representing the color which will be setted.
+     */
     void setLevelColor(Logger::LoggerLvl lvl, LoggerColor::Color color);
+
+    /**
+     * Returns the color associated with a Logger::LoggerLvl.
+     * @param lvl The Logger::LoggerLvl desired.
+     * @return In item of Logger::Color enumeration representing the color associated.
+     */
     LoggerColor::Color getLevelColor(Logger::LoggerLvl lvl);
 
+    /**
+     * This method converts strings to itens of the enumeration RegionalOpt
+     * @param The string to be converted.
+     * @return An item of Regionalpt.
+     * @throw LoggerException If the string is invalid.
+     */
     static RegionalOpt stringToRegionalOpt(std::string str);
+
+    /**
+     * This method converts itens of RegionalOpt enumeration into correspondents strings.
+     * @param regionalOpt The item of RegionalOpt enumeration to be converted.
+     * @return The string correspondents.
+     */
     static std::string regionalOptToString(RegionalOpt regionalOpt);
+
+    /**
+     * This method converts strings to itens of the enumeration LoggerStyle
+     * @param The string to be converted.
+     * @return An item of LoggerStyle.
+     * @throw LoggerException If the string is invalid.
+     */
     static LoggerStyle stringToLoggerStyle(std::string str);
+
+    /**
+     * This method converts itens of LoggerStyle enumeration into correspondents strings.
+     * @param loggerStyle The item of LoggerStyle enumeration to be converted.
+     * @return The string correspondents.
+     */
     static std::string loggerStyleToString(LoggerStyle loggerStyle);
 
 

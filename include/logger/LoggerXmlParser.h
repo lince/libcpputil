@@ -24,19 +24,93 @@ namespace logger {
 
 class LoggerXmlParser {
 public:
+	/**
+	 * Constructor.
+	 * @param The xml file name to be parsed.
+	 */
 	LoggerXmlParser(std::string xmlFileName);
-	void parseDocument();
+
+	/**
+	 * Destructor;
+	 */
 	virtual ~LoggerXmlParser();
 
+	/**
+	 * Do the parse of the xml document to retrieve the log options.
+	 * If some error was detected during the parsing process, the options will be
+	 * reseted to default options.
+	 * @throw LoggerException When errors are detected in the xml document.
+	 */
+	void parseDocument();
+
+
+	/**
+	 * Returns a set with the name of blocked class of parsed the xml document.
+	 * The default value is a empty set.
+	 * @return A set with the name of classes.
+	 */
 	std::set<std::string>* getBlockedClasses();
+
+	/**
+	 * Returns the name of the log file of the parsed xml document.
+	 * The default value is "logfile.log".
+	 * @return String with the file name.
+	 */
 	std::string getFileName();
+
+	/**
+	 * Returns the log-server's ip address of the parsed xml document.
+	 * The default value is "127.0.0.1".
+	 * @return String with the file name.
+	 */
 	std::string getIpAddress();
+
+	/**
+	 * Returns the LoggerManager::LoggerStyle of the parsed xml document.
+	 * The default value is LoggerManager::DEFAULT.
+	 * @return In item of Logger::Manager::LoggerStyle enumeration.
+	 */
     LoggerManager::LoggerStyle getLoggerStyle();
+
+	/**
+	 * Returns the log-server's port number of the parsed xml document.
+	 * The default value is 5004
+	 * @return Integer with the port number.
+	 */
     unsigned short getPortNumber();
+
+	/**
+	 * Returns the RegionalOpt::LoggerStyle of the parsed xml document.
+	 * The default value is LoggerManager::USA.
+	 * @return In item of Logger::Manager::RegionalOpt enumeration.
+	 */
     LoggerManager::RegionalOpt getRegional();
+
+	/**
+	 * Returns LoggerNetworkStream::Protocol of the parsed xml document.
+	 * The default value is LoggerNetworkStream::TCP
+	 * @return In item of LoggerNetworkStream::Protocol enumeration.
+	 */
     LoggerNetworkStream::Protocol getProtocol();
+
+	/**
+	 * Returns LoggerLogFile::WriteMode of the parsed xml document.
+	 * The default value is LoggerLogFile::OVERWRITE_FILE
+	 * @return In item of LoggerLogFile::WriteMode enumeration.
+	 */
     LoggerLogFile::WriteMode getWritemode();
+
+	/**
+	 * Returns Logger::LoggerLvl of the parsed xml document.
+	 * The default value is Logger::INFO
+	 * @return In item of Logger::LoggerLvl enumeration.
+	 */
     Logger::LoggerLvl getLoggerLvl();
+
+	/**
+	 * Returns An array of LoggerColor::Color of the parsed xml document.
+	 * @return Array with the Logger::Color associated with the log messages.
+	 */
     LoggerColor::Color* getColors();
 
 private:

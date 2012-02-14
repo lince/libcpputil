@@ -205,9 +205,7 @@ void LoggerXmlParser::parseDocument() {
 	} catch (ticpp::Exception& ex) {
 		cerr << ex.what() << endl;
 		resetDefault();
-	} catch (LoggerException& ex) {
-		cerr << ex.what();
-		resetDefault();
+		throw ex;
 	}
 }
 

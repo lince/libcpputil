@@ -7,6 +7,8 @@
 
 #include "../../include/logger/LoggerColor.h"
 #include "../../include/logger/LoggerException.h"
+#include "../../include/Functions.h"
+using namespace cpputil;
 
 #include <iostream>
 using namespace std;
@@ -55,39 +57,40 @@ void LoggerColor::internalMessage(string completeMessage, LoggerLvl lvl) {
 }
 
 LoggerColor::Color LoggerColor::stringToColor(string str) {
-	if (str == "black" || str== "BLACK") {
+	string aux = Functions::toUpperCase(str);
+	if (aux == "BLACK") {
 		return LoggerColor::BLACK;
-	} else if (str == "red" || str== "RED") {
+	} else if (aux == "RED") {
 		return LoggerColor::RED;
-	} else if (str == "green" || str== "GREEN") {
+	} else if (aux == "GREEN") {
 		return LoggerColor::GREEN;
-	} else if (str == "brown" || str== "BROWN") {
+	} else if (aux == "BROWN") {
 		return LoggerColor::BROWN;
-	} else if (str == "blue" || str== "BLUE") {
+	} else if (aux == "BLUE") {
 		return LoggerColor::BLUE;
-	} else if (str == "magenta" || str== "MAGENTA") {
+	} else if (aux == "MAGENTA") {
 		return LoggerColor::MAGENTA;
-	} else if (str == "cyan" || str== "CYAN") {
+	} else if (aux == "CYAN") {
 		return LoggerColor::CYAN;
-	} else if (str == "gray" || str== "GRAY") {
+	} else if (aux == "GRAY") {
 		return LoggerColor::GRAY;
-	} else if (str == "dark_gray" || str== "DARK_GRAY") {
+	} else if (aux == "DARK_GRAY") {
 		return LoggerColor::DARK_GRAY;
-	} else if (str == "light_red" || str== "LIGHT_RED") {
+	} else if (aux == "LIGHT_RED") {
 		return LoggerColor::LIGHT_RED;
-	} else if (str == "light_green" || str== "LIGHT_GREEN") {
+	} else if (aux == "LIGHT_GREEN") {
 		return LoggerColor::LIGHT_GREEN;
-	} else if (str == "yellow" || str== "YELLOW") {
+	} else if (aux == "YELLOW") {
 		return LoggerColor::YELLOW;
-	} else if (str == "light_blue" || str== "LIGHT_BLUE") {
+	} else if (aux == "LIGHT_BLUE") {
 		return LoggerColor::LIGHT_BLUE;
-	} else if (str == "light_magenta" || str== "LIGHT_MAGENTA") {
+	} else if (aux == "LIGHT_MAGENTA") {
 		return LoggerColor::LIGHT_MAGENTA;
-	} else if (str == "light_cyan" || str== "LIGHT_CYAN") {
+	} else if (aux == "LIGHT_CYAN") {
 		return LoggerColor::LIGHT_CYAN;
-	} else if (str == "white" || str== "WHITE") {
+	} else if (aux == "WHITE") {
 		return LoggerColor::WHITE;
-	} else if (str == "default" || str== "DEFAULT") {
+	} else if (aux == "DEFAULT") {
 		return LoggerColor::DEFAULT;
 	} else {
 		throw LoggerException(

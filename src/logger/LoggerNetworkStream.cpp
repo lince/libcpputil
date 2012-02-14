@@ -68,8 +68,4 @@ void LoggerNetworkStream::internalMessage(string completeMessage,  Logger::Logge
 }
 
 } /* namespace logger */
-}
-
-
-
- /* namespace cpputil */
+} /* namespace cpputil */
