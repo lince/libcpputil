@@ -76,6 +76,8 @@ TARGET_LINK_LIBRARIES (cpputil pthread uuid)
 
 LINK_DIRECTORIES (${libcpputil_BINARY_DIR})
 
+INCLUDE_DIRECTORIES (${libcpputil_SOURCE_DIR}/include)
+
 ADD_EXECUTABLE(exceptionTest test/exceptionTest.cpp)
 TARGET_LINK_LIBRARIES (exceptionTest cpputil)
 
@@ -121,5 +123,5 @@ INSTALL (FILES ${install_headers_logger} DESTINATION include/libcpputil/logger)
 
 INSTALL (FILES ${install_headers_network} DESTINATION include/libcpputil/network)
 
-# include_directories (${HELLO_SOURCE_DIR}/Hello)
+
 
