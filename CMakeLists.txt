@@ -46,7 +46,6 @@ SET(install_headers
 			include/NotImplementedException.h
 			include/Thread.h
 			include/Mutex.h
-			include/Enum.h
 			include/ThreadExceptionListener.h
 			include/LockedCondition.h)
 			
