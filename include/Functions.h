@@ -11,6 +11,7 @@
 #include <string>
 #include "Time.h"
 #include "Date.h"
+#include "IllegalParameterException.h"
 
 namespace cpputil {
 
@@ -31,7 +32,44 @@ public:
 	 * @param value A number.
 	 * @return A string with the representation of the number.
 	 */
-	static std::string numberToString(double value);
+	static std::string toString(const double value);
+
+    /**
+     * This method convert booleans values to strings.
+     * @param value The boolean value to be converted.
+     * @return A string "true" or a string "false".
+     */
+    static std::string toString(const bool value);
+
+    /**
+     * This method verifies if the a string is a valid long number.
+     * @param str The string to be verified.
+     * @return true, if str is a valid long number; false, otherwise.
+     */
+    static bool isLong(const std::string& str);
+
+    /**
+     * This method verifies if the a string is a valid double number.
+     * @param str The string to be verified.
+     * @return true, if str is a valid double number; false, otherwise.
+     */
+    static bool isDouble(const std::string& str);
+
+    /**
+     * This method converts a string into a long number.
+     * @param str The string to be converted.
+     * @return The resulting long number.
+     * @throw IllegalParameterException If str isn't a valid long number.
+     */
+    static long strToLong(const std::string& str);
+
+    /**
+     * This method converts a string into a double number.
+     * @param str The string to be converted.
+     * @return The resulting double number.
+     * @throw IllegalParameterException If str isn't a valid double number.
+     */
+    static double strToDouble(const std::string& str);
 
 	/**
 	 * This methods returns the current date.
@@ -99,13 +137,22 @@ public:
      */
     static std::string toLowerCase(const std::string& str);
 
+
+	/**
+	 * Converts a number into a std::string.
+	 * @param value A number.
+	 * @return A string with the representation of the number.
+	 * @deprected Use toString() instead.
+	 */
+	static std::string numberToString(const double value);
+
     /**
      * This method convert booleans values to strings.
      * @param value The boolean value to be converted.
      * @return A string "true" or a string "false".
+     * @deprected Use toString() instead.
      */
     static std::string boolToString(const bool value);
-
 };
 
 } /* namespace cpputil */
