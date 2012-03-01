@@ -85,6 +85,13 @@ public:
 	};
 
 public:
+
+	/**
+	 * Default constructor
+	 * Will assume the current data value.
+	 */
+	Date();
+
 	/**
 	 * Integer Constructor.
 	 * Instances created with this constructor will have DateFormat::US_SHORT_FORMAT as default
@@ -94,7 +101,6 @@ public:
 	 * @param y The numeric representation of a year bigger than 0.
 	 * @throw IllegalParameterException When informed a invalid date.
 	 */
-
 	Date(int d, int m, int y);
 
 	/**

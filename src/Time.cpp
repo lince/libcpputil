@@ -20,6 +20,10 @@
 
 namespace cpputil {
 
+Time::Time() {
+	setTime(Time::getCurrentTime());
+}
+
 Time::Time(int h, int m, int s) {
 	setTime(h, m, s);
 	setTimeFormat(Time::US_FORMAT);

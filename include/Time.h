@@ -31,6 +31,13 @@ public:
 	};
 
 public:
+
+	/**
+	 * Default constructor
+	 * Will assume the current time value.
+	 */
+	Time();
+
 	/**
 	 * Integer Constructor.
 	 * Instances created with this constructor will have DateFormat::US_FORMAT as default

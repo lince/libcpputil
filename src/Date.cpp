@@ -26,6 +26,10 @@ Date::MonthData** Date::months = initializeMonthsDate();
 char** Date::weekDaysBR = initializeWeekDaysBR();
 char** Date::weekDaysUS = initializeWeekDaysUS();
 
+Date::Date() {
+	setDate(Date::getCurrentDate());
+}
+
 Date::Date(int d, int m, int y) {
 	setDate(d, m, y);
 	dateFormat = Date::US_SHORT_FORMAT;
