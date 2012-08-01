@@ -50,6 +50,11 @@ void Loggable::unregister() {
 	UNREGISTER(logger);
 }
 
+void Loggable::overrideName(std::string newName) {
+	UNREGISTER(logger);
+	REGISTER(logger, newName);
+}
+
 /* must be implemented by all class */
 void Loggable::callBackLogger() {
 

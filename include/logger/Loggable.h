@@ -83,6 +83,11 @@ protected:
 	 */
 	void unregister();
 
+	/**
+	 * This method is used to override the name assigned to the instance.
+	 */
+	void overrideName(std::string newName);
+
 private:
 	Logger* logger;
 
