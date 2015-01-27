@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 using namespace std;
 
 
@@ -33,6 +34,6 @@ int main() {
 	MyControl* c = new MyControl();
 	t->setExceptionListener(c);
 	t->start();
-	sleep(6);
+	usleep(6000000);
 	return 0;
 }
